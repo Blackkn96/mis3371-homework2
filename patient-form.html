@@ -1,1 +1,493 @@
+<!DOCTYPE html>
+<!--
+Name: David Kinard
+File: patient-form.html
+Date created: June 17, 2026
+Date updated: June 27, 2026
+Version: 2.0
+Purpose: MIS 3371 Homework 2 - Updated patient registration form for Valor Veterans
+         Medical Center. Added title attributes, REGEX patterns, Review button,
+         dynamic slide bar, and external JavaScript file reference.
+-->
 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valor Veterans Medical Center</title>
+
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Favicon for browser tab -->
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- Link to external JavaScript file -->
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- ==================== HEADER / BANNER ==================== -->
+    <div id="banner">
+        <div id="logo-area">
+            <img src="logo.png" alt="Valor Veterans Medical Center logo" id="logo">
+        </div>
+
+        <div id="title-area">
+            <h1>Valor Veterans Medical Center</h1>
+        </div>
+
+        <div id="date-area">
+            <!-- Dynamic date injected via inline JavaScript at bottom of page -->
+            <p>Today is: <span id="today"></span></p>
+        </div>
+    </div>
+    <!-- ==================== END HEADER ==================== -->
+
+
+    <!-- ==================== MAIN FORM CONTAINER ==================== -->
+    <div id="form-container">
+        <h2>Patient Registration Form</h2>
+
+        <!--
+            Form submits to thankyou.html (client-side only).
+            No method attribute per assignment specs.
+        -->
+        <form action="thankyou.html" id="registrationForm">
+
+            <!-- ---------- Personal Information ---------- -->
+            <h3>Personal Information</h3>
+            <table>
+                <!-- Row 1: Name fields -->
+                <tr>
+                    <td><label for="firstname">First Name:</label></td>
+                    <td>
+                        <input type="text" id="firstname" name="firstname"
+                            maxlength="30" required
+                            pattern="[A-Za-z'\-]{1,30}"
+                            title="Enter your first name (1-30 characters, letters, apostrophes and dashes only)">
+                    </td>
+
+                    <td><label for="middleinit">MI:</label></td>
+                    <td>
+                        <input type="text" id="middleinit" name="middleinit"
+                            maxlength="1"
+                            pattern="[A-Za-z]"
+                            title="Enter your middle initial (1 letter only, optional)">
+                    </td>
+
+                    <td><label for="lastname">Last Name:</label></td>
+                    <td>
+                        <input type="text" id="lastname" name="lastname"
+                            maxlength="30" required
+                            pattern="[A-Za-z'\-]{1,30}"
+                            title="Enter your last name (1-30 characters, letters, apostrophes and dashes only)">
+                    </td>
+                </tr>
+
+                <!-- Row 2: DOB, SSN, Gender -->
+                <tr>
+                    <td><label for="dob">Date of Birth:</label></td>
+                    <td>
+                        <input type="text" id="dob" name="dob"
+                            placeholder="MM/DD/YYYY" maxlength="10" required
+                            pattern="(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/(19|20)\d{2}"
+                            title="Enter your date of birth in MM/DD/YYYY format. Must not be a future date or more than 120 years ago.">
+                    </td>
+
+                    <td><label for="ssn">SSN:</label></td>
+                    <td>
+                        <input type="password" id="ssn" name="ssn"
+                            placeholder="XXX-XX-XXXX" maxlength="11" required
+                            pattern="\d{3}-\d{2}-\d{4}"
+                            title="Enter your Social Security Number in XXX-XX-XXXX format (numbers only)">
+                    </td>
+
+                    <td>Gender:</td>
+                    <td>
+                        <!-- Radio button set 1: Gender -->
+                        <input type="radio" id="male" name="gender" value="Male" required
+                            title="Select your gender">
+                        <label for="male">Male</label>
+
+                        <input type="radio" id="female" name="gender" value="Female"
+                            title="Select your gender">
+                        <label for="female">Female</label>
+
+                        <input type="radio" id="other" name="gender" value="Other"
+                            title="Select your gender">
+                        <label for="other">Other</label>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- ---------- Contact Information ---------- -->
+            <h3>Contact Information</h3>
+            <table>
+                <!-- Address Line 1 -->
+                <tr>
+                    <td><label for="address1">Address Line 1:</label></td>
+                    <td colspan="5">
+                        <input type="text" id="address1" name="address1"
+                            maxlength="30" required
+                            pattern=".{2,30}"
+                            title="Enter your street address (2-30 characters required)">
+                    </td>
+                </tr>
+
+                <!-- Address Line 2 -->
+                <tr>
+                    <td><label for="address2">Address Line 2:</label></td>
+                    <td colspan="5">
+                        <input type="text" id="address2" name="address2"
+                            maxlength="30"
+                            pattern=".{2,30}"
+                            title="Enter your apartment, suite, or unit number (optional, 2-30 characters if entered)">
+                    </td>
+                </tr>
+
+                <!-- City, State, Zip on same row -->
+                <tr>
+                    <td><label for="city">City:</label></td>
+                    <td>
+                        <input type="text" id="city" name="city"
+                            maxlength="30" required
+                            pattern=".{2,30}"
+                            title="Enter your city (2-30 characters required)">
+                    </td>
+
+                    <td><label for="state">State:</label></td>
+                    <td>
+                        <!-- State dropdown: all 50 states + DC + PR, TX pre-selected -->
+                        <select id="state" name="state" required
+                            title="Select your state from the dropdown">
+                            <option value="">Select</option>
+                            <option value="AL">AL</option>
+                            <option value="AK">AK</option>
+                            <option value="AZ">AZ</option>
+                            <option value="AR">AR</option>
+                            <option value="CA">CA</option>
+                            <option value="CO">CO</option>
+                            <option value="CT">CT</option>
+                            <option value="DE">DE</option>
+                            <option value="DC">DC</option>
+                            <option value="FL">FL</option>
+                            <option value="GA">GA</option>
+                            <option value="HI">HI</option>
+                            <option value="ID">ID</option>
+                            <option value="IL">IL</option>
+                            <option value="IN">IN</option>
+                            <option value="IA">IA</option>
+                            <option value="KS">KS</option>
+                            <option value="KY">KY</option>
+                            <option value="LA">LA</option>
+                            <option value="ME">ME</option>
+                            <option value="MD">MD</option>
+                            <option value="MA">MA</option>
+                            <option value="MI">MI</option>
+                            <option value="MN">MN</option>
+                            <option value="MS">MS</option>
+                            <option value="MO">MO</option>
+                            <option value="MT">MT</option>
+                            <option value="NE">NE</option>
+                            <option value="NV">NV</option>
+                            <option value="NH">NH</option>
+                            <option value="NJ">NJ</option>
+                            <option value="NM">NM</option>
+                            <option value="NY">NY</option>
+                            <option value="NC">NC</option>
+                            <option value="ND">ND</option>
+                            <option value="OH">OH</option>
+                            <option value="OK">OK</option>
+                            <option value="OR">OR</option>
+                            <option value="PA">PA</option>
+                            <option value="PR">PR</option>
+                            <option value="RI">RI</option>
+                            <option value="SC">SC</option>
+                            <option value="SD">SD</option>
+                            <option value="TN">TN</option>
+                            <option value="TX" selected>TX</option>
+                            <option value="UT">UT</option>
+                            <option value="VT">VT</option>
+                            <option value="VA">VA</option>
+                            <option value="WA">WA</option>
+                            <option value="WV">WV</option>
+                            <option value="WI">WI</option>
+                            <option value="WY">WY</option>
+                        </select>
+                    </td>
+
+                    <td><label for="zip">Zip Code:</label></td>
+                    <td>
+                        <input type="text" id="zip" name="zip"
+                            placeholder="12345" maxlength="10" required
+                            pattern="\d{5}(-\d{4})?"
+                            title="Enter your zip code (5 digits, or ZIP+4 format: 12345-6789)">
+                    </td>
+                </tr>
+
+                <!-- Phone and Email on same row -->
+                <tr>
+                    <td><label for="phone1">Phone:</label></td>
+                    <td>
+                        <input type="tel" id="phone1" name="phone1"
+                            placeholder="123-456-7890" maxlength="12" required
+                            pattern="\d{3}-\d{3}-\d{4}"
+                            title="Enter your phone number in 123-456-7890 format">
+                    </td>
+
+                    <td><label for="email">Email:</label></td>
+                    <td colspan="3">
+                        <input type="email" id="email" name="email"
+                            placeholder="name@domain.com" maxlength="50" required
+                            pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
+                            title="Enter a valid email address in name@domain.com format">
+                    </td>
+                </tr>
+
+                <!-- Preferred contact method dropdown -->
+                <tr>
+                    <td><label for="preferred_contact">Preferred Contact Method:</label></td>
+                    <td>
+                        <select id="preferred_contact" name="preferred_contact"
+                            title="Select how you would like us to contact you">
+                            <option value="phone">Phone</option>
+                            <option value="email" selected>Email</option>
+                            <option value="text">Text</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- ---------- Account Information ---------- -->
+            <h3>Account Information</h3>
+            <table>
+                <!-- Desired User ID -->
+                <tr>
+                    <td><label for="userid">Desired User ID:</label></td>
+                    <td>
+                        <input type="text" id="userid" name="userid"
+                            maxlength="20" required
+                            pattern="[A-Za-z][A-Za-z0-9_\-]{4,19}"
+                            title="5-20 characters. Must start with a letter. Letters, numbers, dashes and underscores only. No spaces.">
+                    </td>
+                </tr>
+
+                <!-- Password fields -->
+                <tr>
+                    <td><label for="password">Password:</label></td>
+                    <td>
+                        <input type="password" id="password" name="password"
+                            maxlength="20" required
+                            title="8-20 characters. Must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character. Cannot match your User ID.">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><label for="confirm_password">Confirm Password:</label></td>
+                    <td>
+                        <input type="password" id="confirm_password" name="confirm_password"
+                            maxlength="20" required
+                            title="Re-enter your password exactly as you typed it above. Both passwords must match.">
+                    </td>
+                </tr>
+            </table>
+
+            <!-- ---------- Veteran / Insurance Information ---------- -->
+            <h3>Veteran / Insurance Information</h3>
+            <table>
+                <!-- Branch of service dropdown -->
+                <tr>
+                    <td><label for="branch_service">Branch of Service:</label></td>
+                    <td>
+                        <select id="branch_service" name="branch_service"
+                            title="Select the branch of the military you served in">
+                            <option value="">Select</option>
+                            <option value="Army">Army</option>
+                            <option value="Navy">Navy</option>
+                            <option value="Air Force">Air Force</option>
+                            <option value="Marines">Marines</option>
+                            <option value="Coast Guard">Coast Guard</option>
+                            <option value="Space Force">Space Force</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <!-- Radio button set 2: VA eligibility -->
+                <tr>
+                    <td>Eligible for Veteran Health Benefits?</td>
+                    <td>
+                        <input type="radio" id="va_yes" name="va_eligible" value="Yes"
+                            title="Select Yes if you are eligible for VA health benefits">
+                        <label for="va_yes">Yes</label>
+
+                        <input type="radio" id="va_no" name="va_eligible" value="No"
+                            title="Select No if you are not eligible for VA health benefits">
+                        <label for="va_no">No</label>
+                    </td>
+                </tr>
+
+                <!-- Radio button set 3: Service-connected disability -->
+                <tr>
+                    <td>Service-Connected Disability?</td>
+                    <td>
+                        <input type="radio" id="service_yes" name="service_connected" value="Yes"
+                            title="Select Yes if you have a service-connected disability rating">
+                        <label for="service_yes">Yes</label>
+
+                        <input type="radio" id="service_no" name="service_connected" value="No"
+                            title="Select No if you do not have a service-connected disability">
+                        <label for="service_no">No</label>
+                    </td>
+                </tr>
+
+                <!-- Radio button set 4: Insurance -->
+                <tr>
+                    <td>Do you have insurance?</td>
+                    <td>
+                        <input type="radio" id="insurance_yes" name="insurance" value="Yes" required
+                            title="Select Yes if you have health insurance coverage">
+                        <label for="insurance_yes">Yes</label>
+
+                        <input type="radio" id="insurance_no" name="insurance" value="No"
+                            title="Select No if you do not have health insurance">
+                        <label for="insurance_no">No</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><label for="insurance_company">Insurance Company:</label></td>
+                    <td>
+                        <input type="text" id="insurance_company" name="insurance_company"
+                            maxlength="50"
+                            title="Enter the name of your insurance company (optional)">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><label for="policy_number">Policy Number:</label></td>
+                    <td>
+                        <input type="text" id="policy_number" name="policy_number"
+                            maxlength="30"
+                            title="Enter your insurance policy number (optional)">
+                    </td>
+                </tr>
+            </table>
+
+            <!-- ---------- Medical Information ---------- -->
+            <h3>Medical Information</h3>
+            <table>
+                <!-- Text area: current symptoms -->
+                <tr>
+                    <td><label for="symptoms">Current Symptoms:</label></td>
+                    <td>
+                        <textarea id="symptoms" name="symptoms" rows="3" cols="50" required
+                            title="Describe your current symptoms in detail (required)"></textarea>
+                    </td>
+                </tr>
+
+                <!-- Radio button set 5: Vaccination status -->
+                <tr>
+                    <td>Have you been vaccinated?</td>
+                    <td>
+                        <input type="radio" id="vaccinated_yes" name="vaccinated" value="Yes" required
+                            title="Select Yes if you have received vaccinations">
+                        <label for="vaccinated_yes">Yes</label>
+
+                        <input type="radio" id="vaccinated_no" name="vaccinated" value="No"
+                            title="Select No if you have not received vaccinations">
+                        <label for="vaccinated_no">No</label>
+                    </td>
+                </tr>
+
+                <!-- Checkboxes: medical history -->
+                <tr>
+                    <td>Medical History:</td>
+                    <td>
+                        <input type="checkbox" id="chicken_pox" name="medical_history" value="Chicken Pox"
+                            title="Check if you have had Chicken Pox">
+                        <label for="chicken_pox">Chicken Pox</label>
+
+                        <input type="checkbox" id="measles" name="medical_history" value="Measles"
+                            title="Check if you have had Measles">
+                        <label for="measles">Measles</label>
+
+                        <input type="checkbox" id="covid19" name="medical_history" value="Covid-19"
+                            title="Check if you have had Covid-19">
+                        <label for="covid19">Covid-19</label>
+
+                        <input type="checkbox" id="small_pox" name="medical_history" value="Small Pox"
+                            title="Check if you have had Small Pox">
+                        <label for="small_pox">Small Pox</label>
+
+                        <input type="checkbox" id="tetanus" name="medical_history" value="Tetanus"
+                            title="Check if you have had Tetanus">
+                        <label for="tetanus">Tetanus</label>
+                    </td>
+                </tr>
+
+                <!-- Slide bar: health rating 1-10 with dynamic value display -->
+                <tr>
+                    <td><label for="health_rating">Health Rating:</label></td>
+                    <td>
+                        1
+                        <input type="range" id="health_rating" name="health_rating"
+                            min="1" max="10" value="5" step="1"
+                            title="Slide to rate your current health from 1 (poor) to 10 (excellent)"
+                            oninput="updateHealthRating(this.value)">
+                        10
+                        <!-- Dynamic value display updated by JavaScript -->
+                        <span id="health_rating_value"
+                            style="font-weight:bold; color:#1b3a6b; margin-left:10px;">5</span>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- ---------- Review Section ---------- -->
+            <!-- Hidden by default, shown when Review button is clicked -->
+            <div id="review-section" style="display:none;">
+                <h3>Please Review Your Information</h3>
+                <div id="review-content"></div>
+            </div>
+
+            <!-- ---------- Form Buttons ---------- -->
+            <div class="button-row">
+                <input type="reset" value="CLEAR AND START OVER"
+                    title="Click to clear all fields and start over"
+                    onclick="clearReview()">
+                <button type="button" onclick="reviewForm()"
+                    title="Click to review all your entered information before submitting">Review</button>
+                <input type="submit" value="Submit"
+                    title="Click to submit your completed registration form">
+            </div>
+
+        </form>
+    </div>
+    <!-- ==================== END MAIN FORM CONTAINER ==================== -->
+
+
+    <!-- ==================== FOOTER ==================== -->
+    <div id="footer">
+        <p>Valor Veterans Medical Center | Sugar Land, TX</p>
+        <!-- Contact button links to VA website -->
+        <a href="https://www.va.gov" target="_blank" class="contact-button">Contact Us</a>
+    </div>
+    <!-- ==================== END FOOTER ==================== -->
+
+
+    <!-- ==================== INLINE JAVASCRIPT ==================== -->
+    <script>
+        /* Dynamically display today's full date in the banner */
+        document.getElementById("today").innerHTML = new Date().toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+    </script>
+    <!-- ==================== END JAVASCRIPT ==================== -->
+
+</body>
+</html>
+<!-- ==================== END OF DOCUMENT: patient-form.html ==================== -->
